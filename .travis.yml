@@ -5,7 +5,16 @@ notifications:
 
 install: npm ci
 
-script:
-  - npm run lint
-  - npm test
-  - npm run build
+jobs:
+  include:
+    - stage: "Tests"
+      name: "Linting"
+      script: npm run lint
+    - script: npm test
+      name: "Unit tests"
+    - stage: "Build"
+      name: "Build dist files"
+      script: npm run build
+    - stage: "Release"
+      name: "Release to NPM and GitHub"
+      script: npm run release
